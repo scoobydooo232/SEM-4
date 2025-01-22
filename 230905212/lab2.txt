@@ -1,0 +1,44 @@
+create table employee( EmpNo number(5) primary key,
+		       EmpName varchar(20) NOT NULL,
+		  	Gender varchar(20) NOT NULL check(gender = 'M' or gender = 'F'),
+			Salary number(10,2) NOT NULL,
+			Address varchar(20) NOT NULL,
+			DNo number(10));
+
+
+create table department(DeptNo number(5) primary key,
+			DeptName varchar(20) unique,
+			Location varchar(20));
+
+
+
+alter table employee add foreign key(DNo) references department(DeptNo);
+
+
+insert into department values (1,'cse','mysore');
+insert into department values (2,'ict','banglore');
+insert into employee values (1234,'abc','M',10000,'banglore',1);
+insert into employee values (1235,'def','F',20000,'mysore',2);
+
+
+insert into department values (1,'finance','mysore');
+insert into employee values (1235,'abc','M',10000,'banglore',1);
+
+
+SELECT TITLE FROM Course where dept_name = 'Comp. Sci.' AND credits = 3;
+
+
+select takes.course_id,title from takes,course where id = 12345 and takes.course_id = course.course_id;
+
+select id,salary from instructor where salary between 40000 and 90000;
+
+
+
+15.SELECT ST.NAME, C.TITLE, S.YEAR
+ FROM STUDENT ST, COURSE C, SECTION S, TAKES T 
+ WHERE ST.ID=T.ID AND ROOM_NUMBER=101 AND S.COURSE_ID=T.COURSE_ID AND S.YEAR=T.YEAR AND S.SEMESTER=T.SEMESTER AND S.SEC_ID=T.SEC_ID AND T.COURSE_ID=C.COURSE_ID;
+
+
+16. SELECT S.NAME, T.COURSE_ID, C.TITLE C_NAME FROM STUDENT S, TAKES T, COURSE C WHERE S.ID=T.ID AND C.COURSE_ID=T.COURSE_ID AND T.YEAR=2010;
+
+17. SELECT DISTINCT I.NAME FROM INSTRUCTOR I, INSTRUCTOR T WHERE I.SALARY>T.SALARY AND T.DEPT_NAME='Comp. Sci.';
