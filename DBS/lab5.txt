@@ -1,0 +1,199 @@
+Tables:
+Entities:
+1. Employee
+	Fname
+	Minit
+	Lname
+	Address
+	Salary
+	Sex
+	Bdate
+	E_SSN
+	S_SSN
+	Dno
+2. Department
+	Name
+	Number
+	Location
+	MgrSSN
+	Start_date
+3. Project
+	Name
+	Number 
+	Location
+	Dno
+4. Dependent
+	Name
+	Sex
+	Birth_date
+	Relationship
+	SSN
+
+Relationship:
+
+1.Supervision(1-N)
+	S_SSN in employee
+
+2.Works-For(1-N)
+	Dno in employee
+
+3.Manages
+	MgrSSN from employee to department
+	Start Date also goes to employee
+
+4.Works_On
+	SSN
+	Project_number
+	Hours
+
+5.Dependents_Of
+	
+
+6.Controls
+	Number goes to project
+
+
+1. Retrieve the birth date and address of the employee(s) whose name is ‘John B. 
+Smith’. Retrieve the name and address of all employees who work for the 
+‘Research’ department.
+
+->
+SELECT BDATE, ADDRESS
+FROM EMPLOYEE
+WHERE FNAME = 'John' AND MINIT = 'B' AND LNAME = 'Smith';
+
+SELECT E.FNAME, E.LNAME, E.ADDRESS
+FROM EMPLOYEE E 
+WHERE E.DNO =
+(SELECT DNumber 
+FROM department 
+WHERE DName='Research');
+
+
+2.For every project located in ‘Stanford’, list the project number, the controlling  
+department number, and the department manager’s last name, address, and birth 
+date. 
+
+->
+WITH Stanford_mngr(pno,deptno,ssn) AS(
+SELECT Pnumber, Dnum, mgr_ssn
+FROM project,department
+WHERE Plocation='Stafford' AND Dnum=Dnumber)
+SELECT pno,deptno,E.Lname, E.Address, E.Bdate
+FROM Stanford_mngr, Employee E
+WHERE Stanford_mngr.ssn=E.SSN;
+
+-----OR--------
+
+SELECT P.PNUMBER, P.DNUM, M.LNAME, M.ADDRESS, M.BDATE
+FROM PROJECT P
+JOIN DEPARTMENT D ON P.DNUM = D.DNUMBER
+JOIN EMPLOYEE M ON D.MGR_SSN = M.SSN
+WHERE P.PLOCATION = 'Stafford';
+
+ 
+3.For each employee, retrieve the employee’s first and last name and the first and 
+last name of his or her immediate supervisor.
+
+->
+SELECT E.Fname, E.Lname, S.Fname, S.Lname
+FROM employee E, employee S
+WHERE E.Super_SSN=S.SSN;
+
+
+
+4.Make a list of all project numbers for projects that involve an employee whose 
+last name is ‘Smith’, either as a worker or as a manager of the department that 
+controls the project.
+
+->
+SELECT Pno
+FROM Works_On WO, Employee E
+WHERE ESSN=SSN AND E.Lname='Smith';
+
+
+5.Show the resulting salaries if every employee working on the ‘ProductX’ project 
+is given a 10 percent raise.
+
+->
+SELECT E.salary*1.1 
+FROM Employee E, Project P, Works_On WO
+WHERE PName='ProductX' AND PNumber=Pno AND E.SSN=WO.ESSN;
+
+6.Retrieve a list of employees and the projects they are working on, ordered by 
+department and, within each department, ordered alphabetically by last name, then 
+first name. 
+
+-->
+
+SELECT e.Fname, e.Lname, e.Dno, p.pname 
+FROM Employee e, Project p, Works_On w 
+WHERE w.ESSN = e.SSN AND w.pno = p.pnumber 
+ORDER BY Dno, Lname, Fname ASC;
+
+
+7.Retrieve the name of each employee who has a dependent with the same first name 
+and is the same sex as the employee. 
+
+->
+SELECT E.Fname, E.Lname
+FROM Employee E, Dependent D
+WHERE E.SSN=D.ESSN AND E.Fname=D.dependent_name AND E.sex=D.sex;
+
+
+8.Retrieve the names of employees who have no dependents. 
+
+->
+(SELECT Fname FROM EMPLOYEE)
+MINUS
+(SELECT Fname FROM EMPLOYEE E, DEPENDENT D WHERE E.ssn=D.essn);
+
+
+9.List the names of managers who have at least one dependent.
+
+->
+SELECT DISTINCT(Fname)
+FROM employee E, department D, dependent DP
+WHERE E.ssn=D.mgr_ssn AND E.ssn=DP.essn;
+
+10.Find the sum of the salaries of all employees, the maximum salary, the minimum 
+salary, and the average salary.
+
+->
+SELECT SUM(salary), MAX(salary), MIN(salary), AVG(salary)
+FROM employee;
+
+11.For each project, retrieve the project number, the project name, and the number 
+of employees who work on that project. 
+
+->
+SELECT Pname , Pno , COUNT(essn)
+FROM project, works_on
+WHERE Pnumber=Pno
+GROUP BY (Pname,Pno);
+
+12.For each project on which more than two employees work, retrieve the project 
+number, the project name, and the number of employees who work on the 
+project. 
+
+->
+SELECT Pname , Pno,COUNT(essn)
+FROM project, works_on
+WHERE Pnumber=Pno
+GROUP BY (Pname,Pno)
+HAVING COUNT(essn)>2;
+
+13. For each department that has more than five employees, retrieve the department 
+number and the number of its employees who are making more than 40,000. 
+
+->
+SELECT Dno, COUNT(SSN)
+FROM employee
+WHERE salary>40000
+GROUP By Dno
+HAVING COUNT(SSN)>2;
+
+
+
+
+	
