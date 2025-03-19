@@ -1,0 +1,121 @@
+DJANGO DOCUMENTATION
+
+
+BASIC OVERVIEW ON DJANGO
+
+	--->CREATE MODEL IN MODELS.PY
+
+
+	--->TABLES ARE CREATED WHEN THIS COMMAND IS RUN
+		$ python manage.py makemigrations
+		$ python manage.py migrate
+
+
+	--->CREATE ADMIN.PY TO CREATE  a website that lets authenticated users add, change and delete objects.
+
+
+	--->URLS.PY TO CALL FUNCTIONS??
+		For example, if a user requested the URL “/articles/2005/05/39323/”, Django would call the function 				        news.views.article_detail(request, year=2005, month=5, pk=39323).
+
+	--->VIEWS.PY RETURNS HTTPS RESPONSE OBJECT WITH THE REQUESTED DATA OR HTTP404 EXCEPTION
+
+
+------(read up on templates, unclear of its implementation and use case)----------
+
+
+
+CREATING AND SETTING UP A PROJECT
+
+	1)run these commands
+
+		$ mkdir djangotutorial
+		$ django-admin startproject mysite djangotutorial
+
+		IT WILL CREATE SOMETHING LIKE THIS
+			djangotutorial/
+   				 manage.py               ---same as Django admin but adds setttings.py
+   			 	 mysite/
+       				 	__init__.py
+       				 	settings.py     ---config for this Django project
+       				 	urls.py 
+       				 	asgi.py		--some webserver thing
+       					wsgi.py		--some webserver thing
+
+
+		DJANGO ADMIN
+			-cli for admin tasks.
+			-django-admin dbshell //we can specify which database we want in the settings //read up on this again.
+			-django-admin runserver [addrport]  //run your Django application locally and view it in a web browser.
+
+
+	       $ python manage.py runserver
+	
+
+	Projects vs. apps
+	What’s the difference between a project and an app? An app is a web application that does something – e.g., a blog system, a 	database of public records or a small poll app. A project is a collection of configuration and apps for a particular website. A 	project can contain multiple apps. An app can be in multiple projects.
+
+
+
+	Your apps can live anywhere in your Python path. In this tutorial, we’ll create our poll app inside the djangotutorial folder.
+	To create your app, make sure you’re in the same directory as manage.py and type this command
+		$ python manage.py startapp polls
+
+	so we write a function in app/views.py with say return("hello world") then we import this views.py in my app/urls.py then we 	confirgure app/urls in the main project/urls.(TUTORIAL Writing your first Django app, part 1)
+	
+	we can change the database by altering engine in settings.py
+
+
+	2)MANAGE.PY 
+		$ python manage.py migrate  //creates any necessary database tables according to the database settings in your 							    mysite/settings.py file
+	
+	 also add your app to the project settings.py (Writing your first Django app, part 2)
+
+		$ python manage.py makemigrations polls // Migrations are how Django stores changes to your models (and thus your database 							schema) - they’re files on disk  ( polls/migrations/0001_initial.py.)
+
+
+
+		$ python manage.py sqlmigrate polls 0001 // The sqlmigrate command takes migration names and returns their SQL.
+
+
+	tldr, 	1)Change your models (in models.py).
+		2)Run python manage.py makemigrations to create migrations for those changes
+		3)Run python manage.py migrate to apply those changes to the database.
+
+		$ python manage.py shell 
+
+
+
+	3)DJANGO ADMIN
+		
+		$ python manage.py createsuperuser
+		$ python manage.py runserver
+
+		to view the app on Django admin we need import those objects in admin.py and do admin.site.register(obj) in admin.py
+
+
+
+
+	4)ssss
+
+
+
+		
+
+
+
+	
+
+
+
+
+
+	
+	
+		
+	
+
+
+
+	
+	
+
