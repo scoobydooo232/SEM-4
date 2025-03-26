@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioWave Nexus - Gradient Vibes</title>
+    <style>
+        body {
+            font-family: 'Audiowide', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59); /* Dynamic gradient */
+            color: #fff; /* White text for contrast */
+            overflow-x: hidden;
+            animation: gradientShift 15s ease infinite; /* Animated gradient */
+            background-size: 300% 300%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            padding: 4rem 0;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 2;
+        }
+
+        header h1 {
+            font-size: 4rem;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 4px #000;
+            animation: neonGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes neonGlow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff; }
+            to { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff; }
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 2;
+        }
+
+        nav a {
+            color: #fff;
+            text-align: center;
+            padding: 18px 25px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            margin: 0 10px;
+        }
+
+        nav a:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to right, #12c2e9, #f64f59); /* Gradient underline */
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.4s ease-in-out 0s;
+        }
+
+        nav a:hover:before, nav a.active:before {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        main {
+            padding: 4rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .content-container {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 16px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            width: 95%;
+            max-width: 1400px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            border-bottom: 3px solid #fff;
+            padding-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .data-display {
+            position: relative;
+        }
+
+        #loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-style: italic;
+            color: #aaa;
+            font-size: 1.4rem;
+            animation: pulse 2s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        #data-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 15px 20px;
+            text-align: left;
+            color: #fff;
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        #refresh-btn {
+            background: linear-gradient(to right, #12c2e9, #f64f59);
+            color: #000;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            font-weight: bold;
+        }
+
+        #refresh-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            position: relative;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AudioWave Nexus</h1>
+    </header>
+    
+    <nav>
+        <a href="#" class="nav-item active" data-endpoint="songs">Songs</a>
+        <a href="#" class="nav-item" data-endpoint="albums">Albums</a>
+        <a href="#" class="nav-item" data-endpoint="artists">Artists</a>
+        <a href="#" class="nav-item" data-endpoint="genres">Genres</a>
+        <a href="#" class="nav-item" data-endpoint="favorites/1">Favorites</a>
+        <a href="#" class="nav-item" data-endpoint="history/1">History
